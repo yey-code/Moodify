@@ -1,10 +1,12 @@
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FaMusic, FaTheaterMasks, FaRobot, FaSpotify, FaHeart, FaBullseye } from 'react-icons/fa';
 import { HiSparkles, HiChatBubbleLeftRight, HiChartBar, HiPaintBrush, HiBolt } from 'react-icons/hi2';
 
 export default function Home() {
   const { user, login } = useAuth();
+  const [searchParams] = useSearchParams();
+  const error = searchParams.get('error');
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -14,6 +16,11 @@ export default function Home() {
           <FaMusic className="text-primary" />
           Moodify
         </div>
+        {error && (
+          <div className="text-red-500 text-sm bg-red-500/10 px-4 py-2 rounded">
+            Authentication failed. Please try again.
+          </div>
+        )}
         {user ? (
           <Link to="/dashboard" className="btn-secondary">
             Dashboard
