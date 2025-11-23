@@ -10,12 +10,17 @@ export default function Home() {
   const navigate = useNavigate();
   const error = searchParams.get('error');
 
-  // Redirect authenticated users to dashboard
+  // Redirect authenticated users to dashboard immediately
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      navigate('/dashboard', { replace: true });
     }
   }, [user, navigate]);
+
+  // Don't render anything if user is authenticated (prevents flash)
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -25,20 +30,14 @@ export default function Home() {
           <FaMusic className="text-primary" />
           Moodify
         </div>
-        {error && !user && (
+        {error && (
           <div className="text-red-500 text-sm bg-red-500/10 px-4 py-2 rounded">
             Authentication failed. Please try again.
           </div>
         )}
-        {user ? (
-          <Link to="/dashboard" className="btn-secondary">
-            Dashboard
-          </Link>
-        ) : (
-          <button onClick={login} className="btn-secondary">
-            Login
-          </button>
-        )}
+        <button onClick={login} className="btn-secondary">
+          Login
+        </button>
       </nav>
 
       {/* Hero Section */}
