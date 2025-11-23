@@ -1,12 +1,21 @@
 import { useAuth } from '../context/AuthContext';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { FaMusic, FaTheaterMasks, FaRobot, FaSpotify, FaHeart, FaBullseye } from 'react-icons/fa';
 import { HiSparkles, HiChatBubbleLeftRight, HiChartBar, HiPaintBrush, HiBolt } from 'react-icons/hi2';
 
 export default function Home() {
   const { user, login } = useAuth();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const error = searchParams.get('error');
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -16,7 +25,7 @@ export default function Home() {
           <FaMusic className="text-primary" />
           Moodify
         </div>
-        {error && (
+        {error && !user && (
           <div className="text-red-500 text-sm bg-red-500/10 px-4 py-2 rounded">
             Authentication failed. Please try again.
           </div>
