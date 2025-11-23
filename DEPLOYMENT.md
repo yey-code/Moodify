@@ -24,6 +24,17 @@ git push -u origin main
 3. Select your Moodify repository
 4. Railway will auto-detect Node.js
 
+### IMPORTANT: Configure Backend Service
+
+After deployment starts, immediately:
+
+1. Click on your service → **Settings**
+2. **Root Directory**: Set to `server`
+3. **Install Command**: `npm install`
+4. **Build Command**: Leave empty (no build needed)
+5. **Start Command**: `node index.js`
+6. Click **"Redeploy"** after changing settings
+
 ### Configure Environment Variables in Railway:
 
 Click on your service → Variables tab → Add these:
@@ -38,11 +49,10 @@ SESSION_SECRET=your_session_secret
 CLIENT_URL=https://your-vercel-app.vercel.app
 ```
 
-### Set Root Directory:
-- Go to Settings → Root Directory → Set to `server`
-- Start Command: `node index.js`
+**Note**: Get your Railway URL first, then add it to Spotify and Vercel settings.
 
-5. Click "Deploy" - Railway will give you a URL like `https://moodify-production.up.railway.app`
+5. After setting environment variables, click **"Redeploy"**
+6. Railway will give you a URL like `https://moodify-production.up.railway.app`
 
 ## Step 3: Deploy Frontend to Vercel
 
