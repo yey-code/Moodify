@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Use environment variable for API URL, fallback to local development
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
+// Hardcoded Railway URL for production
+const API_URL = 'https://moodify-production-2519.up.railway.app/api';
 
 const api = axios.create({
   baseURL: API_URL,

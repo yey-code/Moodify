@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
+// Use Railway backend URL
+const API_URL = import.meta.env.VITE_API_URL || 'https://moodify-production-2519.up.railway.app';
+
 export function useAuth() {
   return useContext(AuthContext);
 }
@@ -17,7 +20,7 @@ export function AuthProvider({ children }) {
 
   const checkAuth = async () => {
     try {
-      const response = await axios.get('/api/auth/user', { withCredentials: true });
+      const response = await axios.get(`${API_URL}/api/auth/user`, { withCredentials: true });
       setUser(response.data);
     } catch (error) {
       setUser(null);
@@ -27,12 +30,12 @@ export function AuthProvider({ children }) {
   };
 
   const login = () => {
-    window.location.href = '/api/auth/login';
+    window.location.href = `${API_URL}/api/auth/login`;
   };
 
   const logout = async () => {
     try {
-      await axios.post('/api/auth/logout', {}, { withCredentials: true });
+      await axios.post(`${API_URL}/api/auth/logout`, {}, { withCredentials: true });
       setUser(null);
       window.location.href = '/';
     } catch (error) {

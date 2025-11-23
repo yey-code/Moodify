@@ -57,8 +57,8 @@ router.get('/callback', async (req, res) => {
     // Set cookie with user ID
     res.cookie('userId', user.id, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: true, // Always true for production cross-origin
+      sameSite: 'none', // Required for cross-origin cookies
       maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
 
@@ -99,7 +99,11 @@ router.get('/user', async (req, res) => {
 
 // Logout
 router.post('/logout', (req, res) => {
-  res.clearCookie('userId');
+  res.clearCookie('userId', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none'
+  });
   res.json({ message: 'Logged out successfully' });
 });
 
