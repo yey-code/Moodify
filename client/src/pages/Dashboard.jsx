@@ -63,6 +63,13 @@ export default function Dashboard() {
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 w-full sm:w-auto">
             <span className="text-gray-400 text-sm sm:text-base truncate max-w-[200px] sm:max-w-none">Welcome, {user.display_name}</span>
             <div className="flex gap-3">
+              <Link to="/library" className="btn-secondary text-sm sm:text-base">Library</Link>
+              <button onClick={logout} className="btn-secondary text-sm sm:text-base">Logout</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {/* Demo Mode Banner */}
@@ -82,12 +89,6 @@ export default function Dashboard() {
         )}
 
         {/* Hero Card */}
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {/* Hero Card */}
         <div className="card mb-6 sm:mb-8 bg-gradient-to-r from-primary to-blue-500 text-black">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
