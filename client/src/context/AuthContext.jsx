@@ -64,6 +64,14 @@ export function AuthProvider({ children }) {
 
   const login = () => {
     window.location.href = `${API_URL}/api/auth/login`;
+  };
+
+  const loginDemo = () => {
+    localStorage.setItem('demoMode', 'true');
+    setUser(DEMO_USER);
+    window.location.href = '/dashboard';
+  };
+
   const logout = async () => {
     try {
       // Check if demo mode
@@ -91,18 +99,8 @@ export function AuthProvider({ children }) {
       setUser(null);
       window.location.href = '/';
     } catch (error) {
-  const value = {
-    user,
-    loading,
-    login,
-    loginDemo,
-    logout,
-    checkAuth,
-    isDemo: user?.isDemo || false
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}     // Clear token anyway
+      console.error('Logout error:', error);
+      // Clear token anyway
       localStorage.removeItem('authToken');
       setUser(null);
       window.location.href = '/';
@@ -113,8 +111,10 @@ export function AuthProvider({ children }) {
     user,
     loading,
     login,
+    loginDemo,
     logout,
-    checkAuth
+    checkAuth,
+    isDemo: user?.isDemo || false
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
