@@ -35,9 +35,6 @@ export default function Home() {
             Authentication failed. Please try again.
           </div>
         )}
-        <button onClick={login} className="btn-secondary text-sm sm:text-base w-full sm:w-auto">
-          Login
-        </button>
       </nav>
 
       {/* Hero Section */}
