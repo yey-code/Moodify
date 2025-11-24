@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { DEMO_USER } from '../utils/demoData';
 
 const AuthContext = createContext();
 
@@ -15,6 +16,14 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check for demo mode
+    const isDemoMode = localStorage.getItem('demoMode') === 'true';
+    if (isDemoMode) {
+      setUser(DEMO_USER);
+      setLoading(false);
+      return;
+    }
+
     // Check for token in URL (from OAuth callback)
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
@@ -55,10 +64,16 @@ export function AuthProvider({ children }) {
 
   const login = () => {
     window.location.href = `${API_URL}/api/auth/login`;
-  };
-
   const logout = async () => {
     try {
+      // Check if demo mode
+      if (localStorage.getItem('demoMode') === 'true') {
+        localStorage.removeItem('demoMode');
+        setUser(null);
+        window.location.href = '/';
+        return;
+      }
+
       const token = localStorage.getItem('authToken');
       const headers = {};
       
@@ -76,8 +91,18 @@ export function AuthProvider({ children }) {
       setUser(null);
       window.location.href = '/';
     } catch (error) {
-      console.error('Logout error:', error);
-      // Clear token anyway
+  const value = {
+    user,
+    loading,
+    login,
+    loginDemo,
+    logout,
+    checkAuth,
+    isDemo: user?.isDemo || false
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}     // Clear token anyway
       localStorage.removeItem('authToken');
       setUser(null);
       window.location.href = '/';

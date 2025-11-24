@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { playlist } from '../utils/api';
+import { DEMO_PLAYLISTS } from '../utils/demoData';
 import { FaMusic, FaTheaterMasks, FaRobot, FaBook, FaLightbulb, FaSpotify } from 'react-icons/fa';
-import { HiArrowRight } from 'react-icons/hi2';
+import { HiArrowRight, HiInformationCircle } from 'react-icons/hi2';
 
 export default function Dashboard() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading, logout, isDemo } = useAuth();
   const navigate = useNavigate();
   const [playlists, setPlaylists] = useState([]);
   const [loadingPlaylists, setLoadingPlaylists] = useState(true);
@@ -25,6 +26,13 @@ export default function Dashboard() {
 
   const loadPlaylists = async () => {
     try {
+      // Use demo data if in demo mode
+      if (isDemo) {
+        setPlaylists(DEMO_PLAYLISTS);
+        setLoadingPlaylists(false);
+        return;
+      }
+      
       const response = await playlist.getHistory();
       setPlaylists(response.data.playlists.slice(0, 6));
     } catch (error) {
@@ -55,9 +63,25 @@ export default function Dashboard() {
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 w-full sm:w-auto">
             <span className="text-gray-400 text-sm sm:text-base truncate max-w-[200px] sm:max-w-none">Welcome, {user.display_name}</span>
             <div className="flex gap-3">
-              <Link to="/library" className="btn-secondary text-sm sm:text-base">Library</Link>
-              <button onClick={logout} className="btn-secondary text-sm sm:text-base">Logout</button>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto p-4 sm:p-6">
+        {/* Demo Mode Banner */}
+        {isDemo && (
+          <div className="mb-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/50 rounded-lg p-4 flex items-start gap-3">
+            <HiInformationCircle className="text-2xl text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <h3 className="font-bold text-blue-300 mb-1">Demo Mode Active</h3>
+              <p className="text-sm text-gray-300">
+                You're exploring Moodify with sample data. Playlists won't be created in Spotify. 
+                <Link to="/" onClick={logout} className="text-primary hover:underline ml-1">
+                  Login with Spotify
+                </Link> for full features (limited slots available).
+              </p>
             </div>
+          </div>
+        )}
+
+        {/* Hero Card */}
           </div>
         </div>
       </header>

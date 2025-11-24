@@ -5,7 +5,7 @@ import { FaMusic, FaTheaterMasks, FaRobot, FaSpotify, FaHeart, FaBullseye } from
 import { HiSparkles, HiChatBubbleLeftRight, HiChartBar, HiPaintBrush, HiBolt } from 'react-icons/hi2';
 
 export default function Home() {
-  const { user, login } = useAuth();
+  const { user, login, loginDemo } = useAuth();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const error = searchParams.get('error');
@@ -76,19 +76,20 @@ export default function Home() {
             Moodify analyzes your mood, listening habits, social sentiment, and hobbies to create perfectly tailored Spotify playlists just for you.
           </p>
           
-          <div className="flex gap-4 justify-center items-center mt-6 sm:mt-8 px-4">
-            {user ? (
-              <Link to="/mood" className="btn-primary text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 shadow-xl hover:shadow-2xl w-full sm:w-auto max-w-md">
-                <FaSpotify className="text-lg sm:text-xl" />
-                <span className="whitespace-nowrap">Start Creating Playlists</span>
-              </Link>
-            ) : (
-              <button onClick={login} className="btn-primary text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 shadow-xl hover:shadow-2xl w-full sm:w-auto max-w-md">
-                <FaSpotify className="text-lg sm:text-xl" />
-                <span className="whitespace-nowrap">Get Started with Spotify</span>
-              </button>
-            )}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mt-6 sm:mt-8 px-4 max-w-2xl mx-auto">
+            <button onClick={loginDemo} className="btn-primary text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 shadow-xl hover:shadow-2xl w-full sm:w-auto bg-gradient-to-r from-primary to-blue-400">
+              <FaRobot className="text-lg sm:text-xl" />
+              <span className="whitespace-nowrap">Try Demo Mode</span>
+            </button>
+            <button onClick={login} className="btn-secondary text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto border-2 border-primary hover:bg-primary hover:text-black transition">
+              <FaSpotify className="text-lg sm:text-xl" />
+              <span className="whitespace-nowrap">Login with Spotify</span>
+            </button>
           </div>
+          
+          <p className="text-xs sm:text-sm text-gray-500 mt-4 px-4">
+            Demo mode shows full functionality without Spotify login • Limited slots available for Spotify integration
+          </p>
         </div>
       </div>
 

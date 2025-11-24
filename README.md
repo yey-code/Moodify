@@ -2,6 +2,23 @@
 
 Moodify automatically generates personalized Spotify playlists based on your mood, music preferences, listening behavior, social sentiment, and hobbies using AI-powered analysis.
 
+## 🎭 **Try Demo Mode** - No Spotify Login Required!
+
+Due to Spotify's API restrictions (requiring 250k+ MAU for extended quota), Moodify offers **Demo Mode** with unlimited access:
+
+### 🎮 **Demo Mode Features:**
+- ✅ Full UI/UX experience
+- ✅ AI mood analysis simulation  
+- ✅ Playlist generation preview
+- ✅ No Spotify login required
+- ✅ **Unlimited users**
+- ⚠️ Mock data (playlists not created in Spotify)
+
+### 🎵 **Spotify Mode** (Limited Slots):
+- ✅ Real Spotify integration
+- ✅ Creates actual playlists in your account
+- ⚠️ Limited to 25 users due to Spotify API restrictions
+
 ## ✨ Features
 
 - **Mood-Based Playlists**: Select from various moods (happy, sad, energetic, chill, etc.)
