@@ -80,9 +80,9 @@ export default function Dashboard() {
               <h3 className="font-bold text-blue-300 mb-1">Demo Mode Active</h3>
               <p className="text-sm text-gray-300">
                 You're exploring Moodify with sample data. Playlists won't be created in Spotify. 
-                <Link to="/" onClick={logout} className="text-primary hover:underline ml-1">
+                <button onClick={logout} className="text-primary hover:underline ml-1">
                   Login with Spotify
-                </Link> for full features (limited slots available).
+                </button> for full features (limited slots available).
               </p>
             </div>
           </div>
