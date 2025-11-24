@@ -2,11 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import swaggerUi from 'swagger-ui-express';
 import authRoutes from './routes/auth.js';
 import moodRoutes from './routes/mood.js';
 import playlistRoutes from './routes/playlist.js';
 import preferencesRoutes from './routes/preferences.js';
 import { initializeDatabase } from './database/init.js';
+import { swaggerSpec } from './swagger.js';
 
 dotenv.config();
 
@@ -41,6 +43,18 @@ app.use(cookieParser());
 // Initialize database
 initializeDatabase();
 
+// Swagger documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Moodify API Documentation'
+}));
+
+// Swagger JSON endpoint
+app.get('/api-docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/mood', moodRoutes);
@@ -50,7 +64,28 @@ app.use('/api/preferences', preferencesRoutes);
 // Mount auth routes at root for /callback endpoint
 app.use('/', authRoutes);
 
-// Health check
+/**
+ * @swagger
+ * /api/health:
+ *   get:
+ *     summary: Health check endpoint
+ *     description: Check if the API is running
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: API is running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: ok
+ *                 message:
+ *                   type: string
+ *                   example: Moodify API is running
+ */
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Moodify API is running' });
 });
