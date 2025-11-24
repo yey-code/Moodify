@@ -8,6 +8,15 @@ const api = axios.create({
   withCredentials: true
 });
 
+// Add JWT token to all requests
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 // Auth endpoints
 export const auth = {
   getUser: () => api.get('/auth/user'),

@@ -1,8 +1,16 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import { getAuthUrl, getTokens, getCurrentUser } from '../services/spotifyService.js';
 import { UserModel } from '../models/models.js';
 
 const router = express.Router();
+
+const JWT_SECRET = process.env.SESSION_SECRET || 'your-secret-key-change-this';
+
+// Helper function to generate JWT
+function generateToken(userId) {
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '30d' });
+}
 
 /**
  * @swagger
@@ -85,19 +93,22 @@ router.get('/callback', async (req, res) => {
       throw new Error('Failed to create or retrieve user from database');
     }
 
-    // Set cookie with user ID
+    // Generate JWT token
+    const token = generateToken(user.id);
+
+    // Set cookie with user ID (for browsers that support it)
     res.cookie('userId', user.id, {
       httpOnly: true,
-      secure: true, // Always true for production cross-origin
-      sameSite: 'none', // Required for cross-origin cookies
-      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+      secure: true,
+      sameSite: 'none',
+      maxAge: 30 * 24 * 60 * 60 * 1000
     });
 
     console.log('Redirecting to:', `${process.env.CLIENT_URL}/dashboard`);
-    console.log('Cookie set with userId:', user.id);
+    console.log('Auth successful for user:', user.id);
 
-    // Direct HTTP redirect
-    res.redirect(`${process.env.CLIENT_URL}/dashboard`);
+    // Redirect with token in URL (will be stored in localStorage by frontend)
+    res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
   } catch (error) {
     console.error('Auth callback error:', error);
     res.redirect(`${process.env.CLIENT_URL}?error=auth_failed`);
@@ -135,7 +146,25 @@ router.get('/callback', async (req, res) => {
  *         description: Not authenticated
  */
 router.get('/user', async (req, res) => {
-  const userId = req.cookies.userId;
+  // Try to get userId from JWT token first, then fall back to cookie
+  let userId = null;
+  
+  // Check Authorization header for JWT
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      userId = decoded.userId;
+    } catch (error) {
+      console.log('JWT verification failed:', error.message);
+    }
+  }
+  
+  // Fall back to cookie if no valid JWT
+  if (!userId) {
+    userId = req.cookies.userId;
+  }
 
   if (!userId) {
     return res.status(401).json({ error: 'Not authenticated', cookies: req.cookies });
