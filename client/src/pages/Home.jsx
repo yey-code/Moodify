@@ -25,26 +25,26 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="p-6 flex justify-between items-center">
-        <div className="text-2xl font-bold text-primary flex items-center gap-2">
+      <nav className="p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="text-xl sm:text-2xl font-bold text-primary flex items-center gap-2">
           <FaMusic className="text-primary" />
           Moodify
         </div>
         {error && (
-          <div className="text-red-500 text-sm bg-red-500/10 px-4 py-2 rounded">
+          <div className="text-red-500 text-xs sm:text-sm bg-red-500/10 px-3 sm:px-4 py-2 rounded text-center">
             Authentication failed. Please try again.
           </div>
         )}
-        <button onClick={login} className="btn-secondary">
+        <button onClick={login} className="btn-secondary text-sm sm:text-base w-full sm:w-auto">
           Login
         </button>
       </nav>
 
       {/* Hero Section */}
-      <div className="flex-1 flex items-center justify-center px-6 py-20 relative overflow-hidden">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20 relative overflow-hidden">
         {/* Animated Sound Waves Background */}
-        <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <div className="sound-wave-container">
+        <div className="absolute inset-0 opacity-20 sm:opacity-30 pointer-events-none">
+          <div className="sound-wave-container hidden sm:flex">
             <div className="sound-bar" style={{ animationDelay: '0s', left: '10%' }}></div>
             <div className="sound-bar" style={{ animationDelay: '0.1s', left: '15%' }}></div>
             <div className="sound-bar" style={{ animationDelay: '0.2s', left: '20%' }}></div>
@@ -66,26 +66,26 @@ export default function Home() {
         </div>
 
         <div className="max-w-4xl text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent leading-tight px-2">
             Your Mood, Your Music
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-6 leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-4 sm:mb-6 leading-relaxed px-4">
             AI-powered playlist generation based on your emotions, preferences, and lifestyle
           </p>
-          <p className="text-base md:text-lg text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed px-4">
+          <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-4">
             Moodify analyzes your mood, listening habits, social sentiment, and hobbies to create perfectly tailored Spotify playlists just for you.
           </p>
           
-          <div className="flex gap-4 justify-center items-center mt-8">
+          <div className="flex gap-4 justify-center items-center mt-6 sm:mt-8 px-4">
             {user ? (
-              <Link to="/mood" className="btn-primary text-lg px-10 py-4 flex items-center gap-3 shadow-xl hover:shadow-2xl">
-                <FaSpotify className="text-xl" />
-                Start Creating Playlists
+              <Link to="/mood" className="btn-primary text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 shadow-xl hover:shadow-2xl w-full sm:w-auto max-w-md">
+                <FaSpotify className="text-lg sm:text-xl" />
+                <span className="whitespace-nowrap">Start Creating Playlists</span>
               </Link>
             ) : (
-              <button onClick={login} className="btn-primary text-lg px-10 py-4 flex items-center gap-3 shadow-xl hover:shadow-2xl">
-                <FaSpotify className="text-xl" />
-                Get Started with Spotify
+              <button onClick={login} className="btn-primary text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 shadow-xl hover:shadow-2xl w-full sm:w-auto max-w-md">
+                <FaSpotify className="text-lg sm:text-xl" />
+                <span className="whitespace-nowrap">Get Started with Spotify</span>
               </button>
             )}
           </div>
@@ -93,34 +93,34 @@ export default function Home() {
       </div>
 
       {/* Features */}
-      <div className="py-20 px-6 bg-dark-light">
+      <div className="py-12 sm:py-20 px-4 sm:px-6 bg-dark-light">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16">How It Works</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16">How It Works</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             <div className="card text-center">
-              <div className="text-5xl mb-4 text-primary flex justify-center">
+              <div className="text-4xl sm:text-5xl mb-4 text-primary flex justify-center">
                 <FaTheaterMasks />
               </div>
-              <h3 className="text-xl font-bold mb-3">Select Your Mood</h3>
-              <p className="text-gray-400">
+              <h3 className="text-lg sm:text-xl font-bold mb-3">Select Your Mood</h3>
+              <p className="text-sm sm:text-base text-gray-400">
                 Choose from happy, sad, energetic, chill, focused, and more
               </p>
             </div>
             <div className="card text-center">
-              <div className="text-5xl mb-4 text-primary flex justify-center">
+              <div className="text-4xl sm:text-5xl mb-4 text-primary flex justify-center">
                 <FaRobot />
               </div>
-              <h3 className="text-xl font-bold mb-3">AI Analysis</h3>
-              <p className="text-gray-400">
+              <h3 className="text-lg sm:text-xl font-bold mb-3">AI Analysis</h3>
+              <p className="text-sm sm:text-base text-gray-400">
                 Our AI analyzes your inputs, sentiment, and preferences
               </p>
             </div>
-            <div className="card text-center">
-              <div className="text-5xl mb-4 text-primary flex justify-center">
+            <div className="card text-center sm:col-span-2 md:col-span-1">
+              <div className="text-4xl sm:text-5xl mb-4 text-primary flex justify-center">
                 <FaSpotify />
               </div>
-              <h3 className="text-xl font-bold mb-3">Perfect Playlist</h3>
-              <p className="text-gray-400">
+              <h3 className="text-lg sm:text-xl font-bold mb-3">Perfect Playlist</h3>
+              <p className="text-sm sm:text-base text-gray-400">
                 Get a personalized playlist created in your Spotify account
               </p>
             </div>
@@ -129,25 +129,25 @@ export default function Home() {
       </div>
 
       {/* Features List */}
-      <div className="py-20 px-6">
+      <div className="py-12 sm:py-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16">Key Features</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="flex gap-4">
-              <div className="text-2xl text-primary">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16">Key Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            <div className="flex gap-3 sm:gap-4">
+              <div className="text-xl sm:text-2xl text-primary flex-shrink-0">
                 <HiSparkles />
               </div>
               <div>
-                <h4 className="font-bold mb-2">Mood-Based Generation</h4>
-                <p className="text-gray-400">Select from 10+ mood options for perfect musical matches</p>
+                <h4 className="font-bold mb-2 text-base sm:text-lg">Mood-Based Generation</h4>
+                <p className="text-sm sm:text-base text-gray-400">Select from 10+ mood options for perfect musical matches</p>
               </div>
             </div>
-            <div className="flex gap-4">
-              <div className="text-2xl text-primary">
+            <div className="flex gap-3 sm:gap-4">
+              <div className="text-xl sm:text-2xl text-primary flex-shrink-0">
                 <HiChatBubbleLeftRight />
               </div>
               <div>
-                <h4 className="font-bold mb-2">Sentiment Analysis</h4>
+                <h4 className="font-bold mb-2 text-base sm:text-lg">Sentiment Analysis</h4>
                 <p className="text-gray-400">AI analyzes text from your reviews or social posts</p>
               </div>
             </div>
